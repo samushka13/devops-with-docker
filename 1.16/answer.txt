@@ -1,10 +1,15 @@
 FROM node:20
+RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
+COPY package*.json ./
+RUN npm install
 COPY . .
-RUN npm ci
-CMD ["npm", "run", "ui:build"]
+RUN npm run ui:build
+CMD ["npm", "run", "start"]
 
 What I did:
 1. I copied a version of the Bloglist app from the Full Stack Open course.
-2. I created the Dockerfile based on package.json scripts (no README was available).
+2. I created the above Dockerfile based on package.json scripts (no README was available).
 3. I created a web service on Render with language set to 'Docker'.
+
+https://bloglist-docker.onrender.com/

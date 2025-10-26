@@ -1,5 +1,8 @@
 FROM node:20
+RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
+COPY package*.json ./
+RUN npm install
 COPY . .
-RUN npm ci
-CMD ["npm", "run", "ui:build"]
+RUN npm run ui:build
+CMD ["npm", "run", "start"]
