@@ -1,0 +1,1 @@
+Exercise: publish a Dockerfile in Docker Hub. -> SKIPPED

@@ -1,0 +1,10 @@
+FROM node:20
+WORKDIR /usr/src/app
+COPY . .
+RUN npm ci
+CMD ["npm", "run", "ui:build"]
+
+What I did:
+1. I copied a version of the Bloglist app from the Full Stack Open course.
+2. I created the Dockerfile based on package.json scripts (no README was available).
+3. I created a web service on Render with language set to 'Docker'.
