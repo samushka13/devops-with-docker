@@ -1,0 +1,10 @@
+1. Edit Dockerfile (frontend)
+ENV REACT_APP_BACKEND_URL -> change value to http://localhost/api
+
+2. Edit compose.yml (optional)
+services.backend.environment -> remove REQUEST_ORIGIN
+(all buttons work anyway, but this variable is now obsolete)
+
+3. Rebuild images
+
+4. docker compose up

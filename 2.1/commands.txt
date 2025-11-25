@@ -1,0 +1,1 @@
+touch text.log && docker compose up

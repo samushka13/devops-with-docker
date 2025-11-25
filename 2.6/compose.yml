@@ -1,0 +1,27 @@
+services:
+    backend: 
+        image: backend
+        ports: 
+            - 8080:8080
+        environment:
+            - REQUEST_ORIGIN=http://localhost:5000
+            - REDIS_HOST=redis
+            - POSTGRES_HOST=db
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+            - POSTGRES_DATABASE=postgres
+        restart: unless-stopped
+        depends_on:
+            - redis
+            - db
+    frontend:
+        image: frontend
+        ports:
+            - 5000:5000
+    redis:
+        image: redis
+    db:
+        image: postgres
+        environment:
+            - POSTGRES_PASSWORD=postgres
+        restart: unless-stopped
