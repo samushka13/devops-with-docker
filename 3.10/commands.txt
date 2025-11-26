@@ -1,0 +1,2 @@
+docker build -t express-app .
+docker images | grep express-app

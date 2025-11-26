@@ -1,0 +1,3 @@
+docker images | grep end
+docker image history example-backend
+docker image history example-frontend

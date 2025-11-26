@@ -1,0 +1,15 @@
+FROM alpine:3.16.0 AS build-stage
+WORKDIR /usr/src/app
+COPY . .
+RUN apk add --no-cache go && \
+    CGO_ENABLED=0 go build && \
+    apk del go && \
+    echo "backenduser:x:34567:34567:/home:/:" > /pw
+
+FROM scratch
+WORKDIR /usr/src/app
+COPY --from=build-stage /usr/src/app/ /usr/src/app/
+COPY --from=build-stage /pw /etc/passwd
+USER backenduser
+EXPOSE 8080
+ENTRYPOINT ["./server"]

@@ -1,0 +1,2 @@
+docker images | grep backend
+docker image history example-backend

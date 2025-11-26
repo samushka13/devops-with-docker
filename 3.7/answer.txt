@@ -1,0 +1,33 @@
+example-backend    285MB    ->  161MB
+example-frontend   1.29GB   ->  436MB
+
+--------------------
+
+BACKEND:
+
+FROM alpine:3.16.0
+WORKDIR /usr/src/app
+COPY . .
+ENV REQUEST_ORIGIN=http://localhost:5000
+RUN apk add --no-cache go && \
+    go build && \
+    adduser -S backenduser && \
+    apk del go
+USER backenduser
+EXPOSE 8080
+CMD ["./server"]
+
+FRONTEND:
+
+FROM alpine:3.16.0
+WORKDIR /usr/src/app
+COPY . .
+ENV REACT_APP_BACKEND_URL=http://localhost/api
+RUN apk add --no-cache nodejs npm && \
+    npm ci && \
+    npm run build && \
+    npm install -g serve && \
+    adduser -D frontenduser
+USER frontenduser
+EXPOSE 5000
+CMD ["serve", "-s", "-l", "5000", "build"]

@@ -1,0 +1,1 @@
+Exercise: draw a diagram of at least three host machines in a Kubernetes cluster. -> SKIPPED
