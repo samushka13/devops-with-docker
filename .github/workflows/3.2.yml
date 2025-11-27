@@ -1,0 +1,36 @@
+name: Bloglist pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+defaults:
+  run:
+    working-directory: 1.16/blogilista
+
+jobs:
+  deployment_pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "24"
+          cache: "npm"
+          cache-dependency-path: 1.16/blogilista/package-lock.json
+      - name: Create .env
+        run: |
+          touch .env
+          echo "TEST_MONGODB_URI=${{ secrets.TEST_MONGODB_URI_BLOGLIST }}" >> .env
+          echo "MONGODB_URI=${{ secrets.MONGODB_URI_BLOGLIST }}" >> .env
+          echo "PORT=3003" >> .env
+          echo "SECRET=${{ secrets.JWT_SECRET_BLOGLIST }}" >> .env
+          cat .env
+      - name: Install dependencies
+        run: npm install
+      - name: Build
+        run: npm run ui:build
+      - name: Trigger deployment
+        if: ${{ github.event_name == 'push' }}
+        run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID_BLOGLIST }}?key=${{ secrets.RENDER_API_KEY_BLOGLIST }}
